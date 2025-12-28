@@ -37,6 +37,7 @@ ENV/
 *.bin
 *.dll
 *.exe
+*.sav
 bin/
 obj/
 

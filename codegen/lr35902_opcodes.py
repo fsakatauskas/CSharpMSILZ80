@@ -286,6 +286,10 @@ OPCODES: Dict[int, Tuple[str, int, int]] = {
     0x37: ("SCF", 1, 4),
     0x3F: ("CCF", 1, 4),
     
+    # Interrupt control
+    0xF3: ("DI", 1, 4),  # Disable interrupts
+    0xFB: ("EI", 1, 4),  # Enable interrupts
+    
     # Game Boy specific
     0x10: ("STOP", 2, 4),
     0xCB: ("PREFIX CB", 1, 4),  # CB prefix for extended instructions

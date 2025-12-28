@@ -26,16 +26,26 @@ class RomBuilder(IRomBuilder):
             Complete ROM file bytes
         """
         # Create header
+        title = config.get('title', 'HELLO WORLD')
+        print(f"  ROM title: {title}")
+        
         header = RomHeader(
-            title=config.get('title', 'HELLO WORLD'),
+            title=title,
             cartridge_type=config.get('cartridge_type', 0x00),
             rom_size=config.get('rom_size', 0x00),
         )
         
+        # Don't add runtime for complete programs (like Hello World)
+        # The code generator already includes everything needed
+        skip_runtime = config.get('skip_runtime', True)
+        
+        if skip_runtime:
+            final_code = code
+        else:
+            final_code = self._add_runtime(code)
+        
         # Calculate ROM size (pad to minimum 32KB)
-        code_with_runtime = self._add_runtime(code)
-        total_code_size = len(code_with_runtime)
-        rom_size = max(self.MIN_ROM_SIZE, self._round_up_to_power_of_2(total_code_size))
+        rom_size = max(self.MIN_ROM_SIZE, self._round_up_to_power_of_2(len(final_code) + self.CODE_START))
         
         # Build ROM
         rom = bytearray(rom_size)
@@ -56,7 +66,7 @@ class RomBuilder(IRomBuilder):
         
         # Write code (starting at 0x0150)
         code_start = self.CODE_START
-        rom[code_start:code_start + len(code_with_runtime)] = code_with_runtime
+        rom[code_start:code_start + len(final_code)] = final_code
         
         # Calculate and write checksums
         self._write_checksums(rom, header)
@@ -81,12 +91,12 @@ class RomBuilder(IRomBuilder):
         logo = header.nintendo_logo
         rom[0x0104:0x0104 + len(logo)] = logo
         
-        # Title (0x0134-0x0143) - max 16 characters
-        title_bytes = header.title.encode('ascii', errors='ignore')[:15]
+        # Title (0x0134-0x0143) - max 16 characters, padded with 0x00
+        title_bytes = header.title.upper().encode('ascii', errors='ignore')[:16]
+        # Clear title area first
+        for i in range(0x0134, 0x0144):
+            rom[i] = 0x00
         rom[0x0134:0x0134 + len(title_bytes)] = title_bytes
-        
-        # Manufacturer code (0x013F-0x0142)
-        rom[0x013F:0x0142] = header.manufacturer_code[:3]
         
         # CGB flag (0x0143)
         rom[0x0143] = header.cgb_flag
@@ -118,10 +128,10 @@ class RomBuilder(IRomBuilder):
     def _write_checksums(self, rom: bytearray, header: RomHeader):
         """Calculate and write header and global checksums."""
         # Header checksum (0x014D)
-        # Sum of bytes 0x0134-0x014C, then: checksum = 0xE7 - sum
-        checksum = 0xE7
+        # x = 0; for i in 0x0134..0x014C: x = x - mem[i] - 1
+        checksum = 0
         for i in range(0x0134, 0x014D):
-            checksum -= rom[i]
+            checksum = checksum - rom[i] - 1
         checksum &= 0xFF
         rom[0x014D] = checksum
         
