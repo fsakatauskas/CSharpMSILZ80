@@ -1,6 +1,6 @@
 # Security and License Audit Report
 
-**Date**: December 28, 2025
+**Date**: 2025-12-28
 **Auditor**: GitHub Copilot Security Agent
 **Repository**: fsakatauskas/CSharpMSILZ80
 
@@ -139,5 +139,5 @@ The following files were created during this audit:
 
 ---
 
-**Audit Completed**: December 28, 2025
+**Audit Completed**: 2025-12-28
 **Status**: ✅ APPROVED - No security or license issues found

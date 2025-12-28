@@ -64,8 +64,10 @@ Thumbs.db
 *.pfx
 *secret*
 *credential*
-config.json
-secrets.json
+*config*.json
+config*.json
+secrets*.json
+*secrets*.json
 
 # Logs that might contain sensitive data
 *.log
