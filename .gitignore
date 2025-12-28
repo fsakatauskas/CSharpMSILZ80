@@ -54,3 +54,20 @@ obj/
 .DS_Store
 Thumbs.db
 
+# Security - sensitive files
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*secret*
+*credential*
+config.json
+secrets.json
+
+# Logs that might contain sensitive data
+*.log
+logs/
+
