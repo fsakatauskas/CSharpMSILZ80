@@ -1,6 +1,6 @@
-# MSIL to Game Boy Compiler
+# MSIL to Z80 (GB) Compiler
 
-A Python-based compiler that reads .NET assemblies (compiled C# DLLs), interprets MSIL bytecode, and generates Game Boy Classic ROM files targeting the Sharp LR35902 CPU.
+A Python-based compiler that reads .NET assemblies (compiled C# DLLs), interprets MSIL bytecode, and generates GB ROM files targeting the Sharp LR35902 CPU (At this time).
 
 ## Features
 
@@ -146,14 +146,6 @@ All components are wired together using dependency injection for modularity and 
 0xFFFF: Interrupt Enable register
 ```
 
-## Development
-
-### Running Tests
-
-```bash
-# TODO: Add test suite
-```
-
 ### Adding New Features
 
 1. Define interfaces in `interfaces/`
@@ -163,7 +155,19 @@ All components are wired together using dependency injection for modularity and 
 
 ## License
 
-[Add your license here]
+Copyright [2025] [Felipe Sakatauskas]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 ## Acknowledgments
 
