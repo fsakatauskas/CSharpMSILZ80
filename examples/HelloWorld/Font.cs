@@ -3,6 +3,7 @@ namespace HelloWorld;
 /// <summary>
 /// Simple 8x8 font for Game Boy (tiles 0-25 = A-Z, tile 26 = space)
 /// Each tile is 16 bytes (8 rows × 2 bytes per row for 2bpp format)
+/// Font data is original work created for this project (not copyrighted)
 /// </summary>
 public static class Font
 {
